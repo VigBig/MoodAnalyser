@@ -16,45 +16,72 @@ public class MoodAnalyser {
         this.message = message;
     }
 
-    public String analyseMood() {
+    public String analyseMood() throws MoodAnalysisException{
 
-        try{
+        try {
 
-            if (message.toLowerCase().contains("HAPPY".toLowerCase())){
+            if (message == null || message.isEmpty()) {
+
+                throw new MoodAnalysisException("Invalid Mood : Message is empty or NULL");
+
+            }
+
+            if (message.toLowerCase().contains("HAPPY".toLowerCase())) {
 
                 return "HAPPY";
 
-            }else if(message.toLowerCase().contains("SAD".toLowerCase())){
+            } else if (message.toLowerCase().contains("SAD".toLowerCase())) {
 
                 return "SAD";
 
-            }else{
+            } else{
 
                 return "No MOOD Detected";
 
             }
 
-        }catch(NullPointerException nullPointerException){
+        }catch(MoodAnalysisException e){
 
-            return "HAPPY";
+            return "Invalid Mood";
 
         }
 
 
     }
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args){
         System.out.println("Welcome to the Mood Analyser Program :");
 
-        System.out.println("Enter message:");
-        String message = scanner.nextLine();
-        MoodAnalyser moodAnalyser = new MoodAnalyser(message);
-        System.out.println("State of MOOD found in message is : "+moodAnalyser.analyseMood());
+        try{
 
-        System.out.println("Testing by sending message as NULL so as to return HAPPY as mood:");
-        MoodAnalyser moodAnalyser2 = new MoodAnalyser(null);
-        System.out.println("State of MOOD found in message is : "+moodAnalyser2.analyseMood());
+            System.out.println("Enter message:");
+            String message = scanner.nextLine();
+            MoodAnalyser moodAnalyser = new MoodAnalyser(message);
+            System.out.println("State of MOOD found in message is : "+moodAnalyser.analyseMood());
+
+        }catch(MoodAnalysisException e){
+            System.out.println("Exception is Handled");
+        }
+
+        try{
+
+            System.out.println("Testing by sending message as NULL :");
+            MoodAnalyser moodAnalyser2 = new MoodAnalyser(null);
+            System.out.println("State of MOOD found in message is : "+moodAnalyser2.analyseMood());
+
+        }catch(MoodAnalysisException e){
+            System.out.println("Exception is Handled");
+        }
+
+        try{
+
+            System.out.println("Testing by sending message as EMPTY:");
+            MoodAnalyser moodAnalyser3 = new MoodAnalyser("");
+            System.out.println("State of MOOD found in message is : "+moodAnalyser3.analyseMood());
+
+        }catch(MoodAnalysisException e){
+            System.out.println("Exception is Handled");
+        }
 
     }
 
